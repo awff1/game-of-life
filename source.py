@@ -1,11 +1,11 @@
 Grid = list[list[int]]
 
 
-def get_empty_grid(width: int, height: int) -> Grid:
+def get_empty_grid(n: int, m: int) -> Grid:
     ...
 
 
-def get_random_grid(width: int, height: int) -> Grid:
+def get_random_grid(n: int, m: int) -> Grid:
     ...
 
 
