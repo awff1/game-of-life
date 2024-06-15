@@ -1,5 +1,5 @@
 Grid = list[list[bool]]
 
 
-def step(grid: Grid) -> Grid:dioAHJSDUIsd
+def step(grid: Grid) -> Grid:
     pass
