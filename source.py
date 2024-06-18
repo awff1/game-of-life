@@ -12,7 +12,7 @@ def get_random_grid(width: int, height: int) -> Grid:
 
  
 def step(grid: Grid, width: int, height: int) -> Grid:
-    DELTAS =[(1,-1),(0,1),(1,1),(1,0),(-1,1),(0,-1),(-1,-1),(-1,0)]
+    DELTAS =[(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1),(-1,0)]
     life_cell = 0
     for i in range(width+1):
         for j in range(height+1):
@@ -23,8 +23,11 @@ def step(grid: Grid, width: int, height: int) -> Grid:
             if grid[i][j]:
                 if 1 < life_cell < 4: 
                     grid[i][j] = 1
+                    life_cell = 0
             else:
                 if life_cell == 3: 
                     grid[i][j] = 1
+                    life_cell = 0
                 else:
                     grid[i][j] = 0
+                    life_cell = 0
