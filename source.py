@@ -1,3 +1,4 @@
+from copy import deepcopy
 Grid = list[list[int]]
 # [[1,2,3],
 # [4,5,6],
@@ -11,23 +12,27 @@ def get_random_grid(width: int, height: int) -> Grid:
     ...
 
  
-def step(grid: Grid, width: int, height: int) -> Grid:
+def step(grid: Grid) -> Grid:
     DELTAS =[(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1),(-1,0)]
     life_cell = 0
-    for i in range(width+1):
-        for j in range(height+1):
+    H = len(grid)
+    W = len(grid[0])
+    new_grid = deepcopy(grid)
+    for i in range(H):
+        for j in range(W):
             for dj, di in DELTAS:
+                life_cell = 0
                 new_cell = (i + di, j + dj)
                 if new_cell == 1:
                     life_cell+=1
             if grid[i][j]:
                 if 1 < life_cell < 4: 
-                    grid[i][j] = 1
-                    life_cell = 0
+                    new_grid[i][j] = 1
+                    return new_grid
             else:
                 if life_cell == 3: 
-                    grid[i][j] = 1
-                    life_cell = 0
+                    new_grid[i][j] = 1
+                    return new_grid
                 else:
-                    grid[i][j] = 0
-                    life_cell = 0
+                    new_grid[i][j] = 0
+                    return new_grid
