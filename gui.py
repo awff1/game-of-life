@@ -13,7 +13,7 @@ def run_pygame_showcase():
 
     running = True
     while running:  # main game loop
-        time_delta = clock.tick(60) * 0.001  # this is time in seconds between frames
+        _time_delta = clock.tick(60) * 0.001  # this is time in seconds between frames
 
         # do all simulation updates here
         # ...
