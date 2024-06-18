@@ -21,16 +21,10 @@ def step(grid: Grid, width: int, height: int) -> Grid:
                 if new_cell == 1:
                     life_cell+=1
             if grid[i][j]:
-                if 1<life_cell<4: grid[i][j] = 1
+                if 1 < life_cell < 4: 
+                    grid[i][j] = 1
             else:
-                if life_cell == 3: grid[i][j] = 1
-                else: grid[i][j] = 0
-
-
-
-
-                
-
-    
-
-
+                if life_cell == 3: 
+                    grid[i][j] = 1
+                else:
+                    grid[i][j] = 0
