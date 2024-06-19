@@ -1,4 +1,5 @@
 from copy import deepcopy
+from random import randint
 Grid = list[list[int]]
 # [[1,2,3],
 # [4,5,6],
@@ -15,8 +16,14 @@ def get_empty_grid(width: int, height: int) -> Grid:
     return empty_grid
 
 def get_random_grid(width: int, height: int) -> Grid:
-    ...
-
+    
+    random_grid = []
+    for i in range(height):
+        a = []
+        for j in range(width):
+            a.append(randint(0,1))
+        random_grid.append(a)
+    return random_grid
  
 def step(grid: Grid) -> Grid:
     DELTAS =[(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1),(-1,0)]
