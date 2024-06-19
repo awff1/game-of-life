@@ -1,5 +1,58 @@
 import pygame
 
+from source import Grid, step, get_empty_grid, get_random_grid
+
+
+SCREEN_SIZE = (800, 800)
+assert SCREEN_SIZE[0] == SCREEN_SIZE[1], "Only square screens are supported"
+
+BACKGROUND_COLOR = "#303030"
+ALIVE_CELL_COLOR = "white"
+
+
+class GameOfLife:
+    def __init__(self, grid_size: int):
+        self.grid_size = grid_size
+
+        self.grid: Grid = ...
+        self.screen: pygame.Surface = ...
+        self.background: pygame.Surface = ...
+
+        self.render_grid_lines()
+
+        self.running = True
+
+    def make_step(self) -> None:
+        """Make one step of the Game of Life simulation.
+        Overwrite the current grid with the next one."""
+        ...
+
+    def cell_clicked(self, pos: tuple[int, int]) -> tuple[int, int]:
+        """Return cell coordinates by mouse click position."""
+        ...
+
+    def render_grid_lines(self) -> None:
+        """Draw grid lines on the background surface
+        such that we don't need to draw them every frame.
+
+        Hint: there are `self.grid_size - 1` lines in each direction."""
+        ...
+
+    def render_grid(self) -> None:
+        """Draw all cells on the screen surface
+        using the current grid state."""
+        ...
+
+    def process_event(self, event: pygame.event.Event) -> None:
+        """Process one event in the event loop."""
+        ...
+
+    def run(self):
+        """Run the main game loop."""
+        pygame.init()
+        pygame.display.set_caption("Game of Life")
+        ...
+
 
 def run_pygame_showcase():
     pygame.init()
@@ -41,7 +94,7 @@ def run_pygame_showcase():
 
         # render all graphics here
         # ...
-        
+
         screen.blit(background, (0, 0))
 
         pygame.display.flip()
