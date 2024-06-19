@@ -24,71 +24,29 @@ def get_random_grid(width: int, height: int) -> Grid:
             a.append(randint(0,1))
         random_grid.append(a)
     return random_grid
- 
+
+
+
+
 def step(grid: Grid) -> Grid:
     DELTAS =[(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1),(-1,0)]
-    DELTAS1 =[(1,0),(1,-1),(0,-1)]
-    DELTAS1_1 =[(-1,0),(-1,1),(0,1)]
-    DELTAS1_2 =[(0,1),(1,1),(1,0)]
-    DELTAS1_3 =[(0,-1),(-1,-1),(-1,0)]
-    DELTAS2 =[(0,1),(1,1),(1,0),(1,-1),(0,-1)]
-    DELTAS2_1 =[(0,-1),(-1,-1),(-1,0),(-1,1),(0,1)]
-    DELTAS3 =[(1,0),(1,-1),(0,-1),(-1,-1),(-1,0)]
-    DELTAS3_1 =[(-1,0),(-1,1),(0,1),(1,1),(1,0)]
     H = len(grid)
     W = len(grid[0])
     new_grid = deepcopy(grid)
     for i in range(H):
         for j in range(W):
             life_cell = 0
-            if j == 1 and i == 1:
-                for di, dj in DELTAS1:
-                    new_cell =  grid[i+di][j+dj]
+            for di, dj in DELTAS:
+                if (0 <= i + di < H)and (0 <= j+dj < W):
+                    new_cell =  grid[i+di][j+dj] 
                     if new_cell == 1:
-                        life_cell+=1                
-            elif i == H+1 and j == W+1:
-                for di, dj in DELTAS1_1:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1
-            elif j == 1 and i == H+1:
-                for di, dj in DELTAS1_2:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1
-            elif i == 1 and j == W+1:
-                for di, dj in DELTAS1_3:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1
-            elif i == 1 and not(j == 1 or j == W+1):
-                for di, dj in DELTAS2:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1
-            elif i == H+1 and not(j == 1 or j == W+1):
-                for di, dj in DELTAS2_1:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1
-            elif j == 1 and not(i == 1 or i == H+1):
-                for di, dj in DELTAS3:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1
-            elif j == W+1 and not(i == 1 or i == H+1):
-                for di, dj in DELTAS3_1:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1 
-            else:
-                for di, dj in DELTAS:
-                    new_cell =  grid[i+di][j+dj]
-                    if new_cell == 1:
-                        life_cell+=1
+                        life_cell+=1                           
+            print(i,j,life_cell)
             if grid[i][j]:
                 if 1 < life_cell < 4: 
                     new_grid[i][j] = 1
+                else:
+                    new_grid[i][j] = 0
             else:
                 if life_cell == 3: 
                     new_grid[i][j] = 1
