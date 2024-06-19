@@ -21,6 +21,7 @@ class GameOfLife:
         self.render_grid_lines()
 
         self.running = True
+        self.paused = False # for running the simulation steps manually
 
     def make_step(self) -> None:
         """Make one step of the Game of Life simulation.
@@ -28,7 +29,9 @@ class GameOfLife:
         ...
 
     def cell_clicked(self, pos: tuple[int, int]) -> tuple[int, int]:
-        """Return cell coordinates by mouse click position."""
+        """Return cell coordinates by mouse click position.
+        
+        Raise ValueError if the click is outside of the grid."""
         ...
 
     def render_grid_lines(self) -> None:
