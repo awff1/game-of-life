@@ -7,7 +7,7 @@ Grid = list[list[int]]
 # [7,8,9]]
 
 
-def get_empty_grid(width: int, height: int) -> Grid:
+def get_empty_grid(height: int, width: int) -> Grid:
     empty_grid = []
     for i in range(height):
         a = []
@@ -17,7 +17,7 @@ def get_empty_grid(width: int, height: int) -> Grid:
     return empty_grid
 
 
-def get_random_grid(width: int, height: int) -> Grid:
+def get_random_grid(height: int, width: int) -> Grid:
     random_grid = []
     for i in range(height):
         a = []
