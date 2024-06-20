@@ -62,8 +62,10 @@ class GameOfLife:
             self.running = False
         elif event.type == pygame.KEYDOWN:
             self.process_keydown(event)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type in {pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP, pygame.MOUSEWHEEL}:
             self.process_click(event)
+        else:
+            raise NotImplementedError(f"Event type {event.type} is not supported")
 
     def run(self):
         """Run the main game loop."""
