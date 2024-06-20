@@ -21,7 +21,7 @@ class GameOfLife:
         self.render_grid_lines()
 
         self.running = True
-        self.paused = False # for running the simulation steps manually
+        self.paused = False  # for running the simulation steps manually
 
     def make_step(self) -> None:
         """Make one step of the Game of Life simulation.
@@ -30,7 +30,7 @@ class GameOfLife:
 
     def cell_clicked(self, pos: tuple[int, int]) -> tuple[int, int]:
         """Return cell coordinates by mouse click position.
-        
+
         Raise ValueError if the click is outside of the grid."""
         ...
 
@@ -46,9 +46,24 @@ class GameOfLife:
         using the current grid state."""
         ...
 
-    def process_event(self, event: pygame.event.Event) -> None:
-        """Process one event in the event loop."""
+    def process_click(self, event: pygame.event.Event) -> None:
+        """Process mouse click event."""
         ...
+
+    def process_keydown(self, event: pygame.event.Event) -> None:
+        """Process keydown event."""
+        ...
+
+    def process_event(self, event: pygame.event.Event) -> None:
+        """Process one event in the event loop.
+
+        Logically splits the event handling into separate methods."""
+        if event.type == pygame.QUIT:
+            self.running = False
+        elif event.type == pygame.KEYDOWN:
+            self.process_keydown(event)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            self.process_click(event)
 
     def run(self):
         """Run the main game loop."""
