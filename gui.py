@@ -1,4 +1,5 @@
 import pygame
+from pygame import Color
 
 from source import Grid, step, get_empty_grid, get_random_grid
 
@@ -6,14 +7,15 @@ from source import Grid, step, get_empty_grid, get_random_grid
 SCREEN_SIZE = (800, 800)
 assert SCREEN_SIZE[0] == SCREEN_SIZE[1], "Only square screens are supported"
 
-BACKGROUND_COLOR = "#303030"
-ALIVE_CELL_COLOR = "white"
+BACKGROUND_COLOR = Color("#303030")
+ALIVE_CELL_COLOR = Color("white")
 
 
 class GameOfLife:
     def __init__(self, grid_size: int):
         self.grid_size = grid_size
 
+        # initialize the grid with empty cells
         self.grid: Grid = ...
         self.screen: pygame.Surface = ...
         self.background: pygame.Surface = ...
