@@ -33,10 +33,13 @@ class GameOfLife:
 
     def cell_clicked(self, pos: tuple[int, int]) -> tuple[int, int]:
         """Return cell coordinates by mouse click position.
-
         Raise ValueError if the click is outside of the grid."""
-        cell_size = SCREEN_SIZE[1] / self.grid_size
-        return tuple(int(pos[1] // cell_size), int(pos[0] // cell_size))
+
+        if 0 <= pos[0] <= SCREEN_SIZE[0] and 0 <= pos[1] <= SCREEN_SIZE[0]:
+            cell_size = SCREEN_SIZE[1] / self.grid_size
+            return (int(pos[0] // cell_size), int(pos[1] // cell_size))
+        else:
+            raise ValueError
 
     def render_grid_lines(self) -> None:
         """Draw grid lines on the background surface
