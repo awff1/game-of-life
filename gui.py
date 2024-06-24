@@ -1,5 +1,6 @@
 import pygame
 from pygame import Color
+from math import ceil
 
 from source import Grid, step, get_empty_grid, get_random_grid
 
@@ -28,14 +29,14 @@ class GameOfLife:
     def make_step(self) -> None:
         """Make one step of the Game of Life simulation.
         Overwrite the current grid with the next one."""
-        ...
         self.grid = step(self.grid)
 
     def cell_clicked(self, pos: tuple[int, int]) -> tuple[int, int]:
         """Return cell coordinates by mouse click position.
 
         Raise ValueError if the click is outside of the grid."""
-        ...
+        cell_size = SCREEN_SIZE[1] / self.grid_size
+        return tuple(int(pos[1] // cell_size), int(pos[0] // cell_size))
 
     def render_grid_lines(self) -> None:
         """Draw grid lines on the background surface
@@ -83,8 +84,8 @@ def run_pygame_showcase():
 
     clock = pygame.time.Clock()
 
-    screen = pygame.display.set_mode((800, 600))
-    background = pygame.Surface((800, 600))
+    screen = pygame.display.set_mode((800, 800))
+    background = pygame.Surface((800, 800))
     background.fill("black")
 
     running = True
