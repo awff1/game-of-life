@@ -6,7 +6,6 @@ Grid = list[list[int]]
 # [4,5,6],
 # [7,8,9]]
 
-
 def get_empty_grid(height: int, width: int) -> Grid:
     empty_grid = []
     for i in range(height):
@@ -40,7 +39,6 @@ def step(grid: Grid) -> Grid:
                     new_cell = grid[i + di][j + dj]
                     if new_cell == 1:
                         life_cell += 1
-            print(i, j, life_cell)
             if grid[i][j]:
                 if 1 < life_cell < 4:
                     new_grid[i][j] = 1

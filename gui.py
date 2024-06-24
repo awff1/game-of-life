@@ -16,7 +16,7 @@ class GameOfLife:
         self.grid_size = grid_size
 
         # initialize the grid with empty cells
-        self.grid: Grid = ...
+        self.grid: Grid = get_empty_grid(grid_size,grid_size)
         self.screen: pygame.Surface = ...
         self.background: pygame.Surface = ...
 
@@ -29,6 +29,7 @@ class GameOfLife:
         """Make one step of the Game of Life simulation.
         Overwrite the current grid with the next one."""
         ...
+        self.grid = step(self.grid)
 
     def cell_clicked(self, pos: tuple[int, int]) -> tuple[int, int]:
         """Return cell coordinates by mouse click position.
