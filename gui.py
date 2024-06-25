@@ -18,8 +18,8 @@ class GameOfLife:
 
         # initialize the grid with empty cells
         self.grid: Grid = get_empty_grid(grid_size,grid_size)
-        self.screen: pygame.Surface = ...
-        self.background: pygame.Surface = ...
+        self.screen: pygame.Surface = pygame.display.set_mode(SCREEN_SIZE)
+        self.background: pygame.Surface = pygame.Surface(SCREEN_SIZE)
 
         self.render_grid_lines()
 
@@ -46,7 +46,9 @@ class GameOfLife:
         such that we don't need to draw them every frame.
 
         Hint: there are `self.grid_size - 1` lines in each direction."""
-        ...
+        cell_size = SCREEN_SIZE[1] / self.grid_size
+        for i in range(cell_size, SCREEN_SIZE[1], cell_size):
+            pygame.draw.line(self.background, 'white',(i, 0), (i+self.grid_size,800))
 
     def render_grid(self) -> None:
         """Draw all cells on the screen surface
@@ -78,7 +80,10 @@ class GameOfLife:
         """Run the main game loop."""
         pygame.init()
         pygame.display.set_caption("Game of Life")
-        ...
+        
+        clock = pygame.time.Clock()
+        while self.running:
+            pygame.draw.line(...)
 
 
 def run_pygame_showcase():
