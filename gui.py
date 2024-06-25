@@ -17,7 +17,7 @@ class GameOfLife:
         self.grid_size = grid_size
 
         # initialize the grid with empty cells
-        self.grid: Grid = get_empty_grid(grid_size,grid_size)
+        self.grid: Grid = get_empty_grid(grid_size, grid_size)
         self.screen: pygame.Surface = pygame.display.set_mode(SCREEN_SIZE)
         self.background: pygame.Surface = pygame.Surface(SCREEN_SIZE)
 
@@ -46,9 +46,10 @@ class GameOfLife:
         such that we don't need to draw them every frame.
 
         Hint: there are `self.grid_size - 1` lines in each direction."""
-        cell_size = SCREEN_SIZE[1] / self.grid_size
+        cell_size = SCREEN_SIZE[1] // self.grid_size  # TODO: was `/`, changed to `//`
         for i in range(cell_size, SCREEN_SIZE[1], cell_size):
-            pygame.draw.line(self.background, 'white',(i, 0), (i+self.grid_size,800))
+            # TODO: was `800`, changed to `SCREEN_SIZE[1]`
+            pygame.draw.line(self.background, "white", (i, 0), (i + self.grid_size, SCREEN_SIZE[1]))
 
     def render_grid(self) -> None:
         """Draw all cells on the screen surface
@@ -73,17 +74,23 @@ class GameOfLife:
             self.process_keydown(event)
         elif event.type in {pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP, pygame.MOUSEWHEEL}:
             self.process_click(event)
-        else:
-            raise NotImplementedError(f"Event type {event.type} is not supported")
 
     def run(self):
         """Run the main game loop."""
         pygame.init()
         pygame.display.set_caption("Game of Life")
-        
+
         clock = pygame.time.Clock()
         while self.running:
-            pygame.draw.line(...)
+            _time_delta = clock.tick(60) * 0.001
+
+            for event in pygame.event.get():
+                self.process_event(event)
+
+            self.render_grid()
+            self.screen.blit(self.background, (0, 0))
+            pygame.display.flip()
+        pygame.quit()
 
 
 def run_pygame_showcase():
