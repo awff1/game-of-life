@@ -47,9 +47,10 @@ class GameOfLife:
 
         Hint: there are `self.grid_size - 1` lines in each direction."""
         cell_size = SCREEN_SIZE[1] // self.grid_size  # TODO: was `/`, changed to `//`
-        for i in range(cell_size, SCREEN_SIZE[1], cell_size):
-            # TODO: was `800`, changed to `SCREEN_SIZE[1]`
-            pygame.draw.line(self.background, "white", (i, 0), (i + self.grid_size, SCREEN_SIZE[1]))
+        for i in range(0, SCREEN_SIZE[1], cell_size):
+            pygame.draw.line(self.background, "white", (i, 0), (i, SCREEN_SIZE[1]))
+        for i in range(0, SCREEN_SIZE[1], cell_size):
+            pygame.draw.line(self.background, "white", (0, i), (SCREEN_SIZE[1], i))
 
     def render_grid(self) -> None:
         """Draw all cells on the screen surface
@@ -58,7 +59,9 @@ class GameOfLife:
 
     def process_click(self, event: pygame.event.Event) -> None:
         """Process mouse click event."""
-        ...
+        pos = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print(f"Mouse button pressed at {pos}", self.cell_clicked(pos))
 
     def process_keydown(self, event: pygame.event.Event) -> None:
         """Process keydown event."""
