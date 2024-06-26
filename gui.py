@@ -10,6 +10,7 @@ assert SCREEN_SIZE[0] == SCREEN_SIZE[1], "Only square screens are supported"
 
 BACKGROUND_COLOR = Color("#303030")
 ALIVE_CELL_COLOR = Color("white")
+MARGIN = 1
 
 
 class GameOfLife:
@@ -20,11 +21,11 @@ class GameOfLife:
         self.grid: Grid = get_empty_grid(grid_size, grid_size)
         self.screen: pygame.Surface = pygame.display.set_mode(SCREEN_SIZE)
         self.background: pygame.Surface = pygame.Surface(SCREEN_SIZE)
-
+        self.cell_size = SCREEN_SIZE[1] // self.grid_size
         self.render_grid_lines()
 
         self.running = True
-        self.paused = False  # for running the simulation steps manually
+        self.paused = True  # for running the simulation steps manually
 
     def make_step(self) -> None:
         """Make one step of the Game of Life simulation.
@@ -36,8 +37,7 @@ class GameOfLife:
         Raise ValueError if the click is outside of the grid."""
 
         if 0 <= pos[0] <= SCREEN_SIZE[0] and 0 <= pos[1] <= SCREEN_SIZE[0]:
-            cell_size = SCREEN_SIZE[1] / self.grid_size
-            return (int(pos[0] // cell_size), int(pos[1] // cell_size))
+            return (int(pos[0] // self.cell_size), int(pos[1] // self.cell_size))
         else:
             raise ValueError
 
@@ -46,24 +46,38 @@ class GameOfLife:
         such that we don't need to draw them every frame.
 
         Hint: there are `self.grid_size - 1` lines in each direction."""
-        cell_size = SCREEN_SIZE[1] // self.grid_size  # TODO: was `/`, changed to `//`
-        for i in range(0, SCREEN_SIZE[1], cell_size):
+        for i in range(0, SCREEN_SIZE[1], self.cell_size):
             pygame.draw.line(self.background, "white", (i, 0), (i, SCREEN_SIZE[1]))
-        for i in range(0, SCREEN_SIZE[1], cell_size):
+        for i in range(0, SCREEN_SIZE[1], self.cell_size):
             pygame.draw.line(self.background, "white", (0, i), (SCREEN_SIZE[1], i))
 
     def render_grid(self) -> None:
         """Draw all cells on the screen surface
         using the current grid state."""
-        pygame.draw.rect(self.screen, ALIVE_CELL_COLOR, pygame.Rect(100,150,500,100))
+        for i in range(self.grid_size):
+            for j in range(self.grid_size):
+                if self.grid[i][j] == 1:
+                    pygame.draw.rect(
+                        self.screen,
+                        ALIVE_CELL_COLOR,
+                        pygame.Rect(
+                            (j * self.cell_size + MARGIN, i * self.cell_size + MARGIN),
+                            (self.cell_size - MARGIN * 2, self.cell_size - MARGIN * 2),
+                        ),
+                    )
 
     def process_click(self, event: pygame.event.Event) -> None:
         """Process mouse click event."""
         pos = pygame.mouse.get_pos()
         cell_click = self.cell_clicked(pos)
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.grid[cell_click[1]][cell_click[0]] = 1 - self.grid[cell_click[1]][cell_click[0]]
+            self.grid[cell_click[1]][cell_click[0]] = (
+                1 - self.grid[cell_click[1]][cell_click[0]]
+            )
             print(f"Mouse button pressed at {pos}", self.cell_clicked(pos))
+    
+    def clear_grid(self) -> None:
+        self.grid = get_empty_grid(self.grid_size, self.grid_size)
 
     def process_keydown(self, event: pygame.event.Event) -> None:
         """Process keydown event."""
@@ -71,6 +85,12 @@ class GameOfLife:
             self.make_step()
         elif event.key == pygame.K_d:
             visualize_grid(self.grid)
+        elif event.key == pygame.K_c:
+            self.clear_grid()
+        elif event.key == pygame.K_r:
+            self.grid = get_random_grid(self.grid_size, self.grid_size)
+        elif event.key == pygame.K_p:
+            self.paused = not self.paused
 
     def process_event(self, event: pygame.event.Event) -> None:
         """Process one event in the event loop.
@@ -80,7 +100,11 @@ class GameOfLife:
             self.running = False
         elif event.type == pygame.KEYDOWN:
             self.process_keydown(event)
-        elif event.type in {pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP, pygame.MOUSEWHEEL}:
+        elif event.type in {
+            pygame.MOUSEBUTTONDOWN,
+            pygame.MOUSEBUTTONUP,
+            pygame.MOUSEWHEEL,
+        }:
             self.process_click(event)
 
     def run(self):
@@ -89,9 +113,14 @@ class GameOfLife:
         pygame.display.set_caption("Game of Life")
 
         clock = pygame.time.Clock()
+        timer = 0
         while self.running:
-            _time_delta = clock.tick(60) * 0.001
-
+            time_delta = clock.tick(60) * 0.001
+            timer += time_delta
+            if not self.paused and timer > 0.2:
+                self.make_step()
+                timer = 0
+            
             for event in pygame.event.get():
                 self.process_event(event)
 

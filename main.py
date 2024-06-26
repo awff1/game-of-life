@@ -2,7 +2,7 @@ from gui import GameOfLife
 
 
 def main():
-    game = GameOfLife(3)
+    game = GameOfLife(15)
     game.run()
 
 
