@@ -1,6 +1,6 @@
 import pygame
 from pygame import Color
-from math import ceil
+from utils import visualize_grid
 
 from source import Grid, step, get_empty_grid, get_random_grid
 
@@ -55,17 +55,22 @@ class GameOfLife:
     def render_grid(self) -> None:
         """Draw all cells on the screen surface
         using the current grid state."""
-        ...
+        pygame.draw.rect(self.screen, ALIVE_CELL_COLOR, pygame.Rect(100,150,500,100))
 
     def process_click(self, event: pygame.event.Event) -> None:
         """Process mouse click event."""
         pos = pygame.mouse.get_pos()
+        cell_click = self.cell_clicked(pos)
         if event.type == pygame.MOUSEBUTTONDOWN:
+            self.grid[cell_click[1]][cell_click[0]] = 1 - self.grid[cell_click[1]][cell_click[0]]
             print(f"Mouse button pressed at {pos}", self.cell_clicked(pos))
 
     def process_keydown(self, event: pygame.event.Event) -> None:
         """Process keydown event."""
-        ...
+        if event.key == pygame.K_SPACE:
+            self.make_step()
+        elif event.key == pygame.K_d:
+            visualize_grid(self.grid)
 
     def process_event(self, event: pygame.event.Event) -> None:
         """Process one event in the event loop.
@@ -90,8 +95,8 @@ class GameOfLife:
             for event in pygame.event.get():
                 self.process_event(event)
 
-            self.render_grid()
             self.screen.blit(self.background, (0, 0))
+            self.render_grid()
             pygame.display.flip()
         pygame.quit()
 
